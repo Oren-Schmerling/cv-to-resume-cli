@@ -1,0 +1,5 @@
+[
+  { "name": "experience", "max_entries": 5 },
+  { "name": "education", "max_entries": 2 },
+  { "name": "skills", "max_entries": 8 }
+]

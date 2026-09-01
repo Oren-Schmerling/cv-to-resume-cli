@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cv.json",
+  "type": "array",
+  "items": {
+    "additionalProperties": false,
+    "description": "A single bullet-point entry from the CV.\n\nEach entry renders as exactly one line in the LaTeX template \u2014 there is no\nin-app line wrapping or reflow logic downstream, so `text` must already be\none line when authored.",
+    "properties": {
+      "id": {
+        "description": "Unique identifier, referenced by LLM selection output.",
+        "title": "Id",
+        "type": "string"
+      },
+      "section": {
+        "description": "Section name; must match a name in section_config.json.",
+        "title": "Section",
+        "type": "string"
+      },
+      "text": {
+        "description": "Single rendered line. No embedded newlines.",
+        "minLength": 1,
+        "title": "Text",
+        "type": "string"
+      },
+      "tags": {
+        "anyOf": [
+          {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Optional keywords to aid LLM matching.",
+        "title": "Tags"
+      }
+    },
+    "required": ["id", "section", "text"],
+    "title": "CVEntry",
+    "type": "object"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "example-entry-1",
+    "section": "experience",
+    "text": "REPLACE ME: one-line description of a real accomplishment",
+    "tags": ["replace", "with", "real", "keywords"]
+  },
+  {
+    "id": "example-entry-2",
+    "section": "education",
+    "text": "REPLACE ME: one-line education entry",
+    "tags": null
+  }
+]
