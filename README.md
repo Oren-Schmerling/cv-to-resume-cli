@@ -1,7 +1,7 @@
 ## Offline / Local Model
 
 - Small language model (SLM) hosted locally via **vLLM**.
-- Guided/structured decoding (`guided_json` or `outlines`) enforces valid JSON output.
+- Structured outputs (`response_format` `json_schema`) enforces valid JSON output at decode time.
 - No external API calls — entire pipeline (ranking, rendering, compiling) runs offline.
 - `tectonic` used for PDF compilation (self-contained, no TeX Live install needed).
 
@@ -11,13 +11,60 @@
 - Python assembles, validates, and compiles.
 - CV entries authored so each entry = exactly 1 rendered line → No LLM-side line/math logic
 
+## Phase 2 Usage: LLM Matching (library API)
+
+With the vLLM server running (above), `select_entries` sends the CV entries
+and a job description to the model and returns `{section: [ids]}` over all
+configured sections (sections with no CV entries come back as `[]`):
+
+```python
+from pathlib import Path
+
+from cv_to_resume_cli import (
+    MatcherError,
+    load_and_cross_validate,
+    select_entries,
+)
+
+entries, config = load_and_cross_validate(
+    Path("data/cv.json"), Path("data/section_config.json")
+)
+
+try:
+    selection = select_entries(
+        "Senior platform engineer role. Kubernetes, Terraform, Python...",
+        entries,
+        config,
+    )
+except MatcherError as exc:
+    raise SystemExit(f"matching failed: {exc}")
+
+print(selection)
+# {"experience": ["exp-004"], "education": ["edu-003"], "skills": ["skill-004"]}
+```
+
+Behavior:
+
+- Structured outputs enforce the decoding schema server-side: per-section
+  `enum` of valid CV ids, `maxItems` = `max_entries`, `uniqueItems`.
+- The client re-validates every response (ids exist, no duplicates, caps,
+  exact keys) and retries malformed/invalid output up to 3 attempts total.
+- Connection/HTTP errors are not retried — they raise `MatcherError` at once.
+- If the configured model name returns 404, one `GET /v1/models` discovery
+  call runs; the single served model is used, 0 or ≥2 models raise
+  `MatcherError`.
+- Host/port/model dir come from `Settings` (`VLLM_HOST`, `VLLM_PORT`,
+  `HF_MODEL_LOCAL_DIR` in `.env`). CLI wiring lands in Phase 6.
+- Opt-in live test: `LIVE_VLLM_TESTS=1 uv run pytest tests/` (skipped
+  otherwise; structural asserts only, no golden ids until Phase 7).
+
 ## Dependencies & Prerequisites
 
 ### Runtime
 
 - Python 3.10+
 - vLLM (local model serving)
-- Guided decoding: `outlines` or vLLM `guided_json`
+- Structured outputs: vLLM `response_format` `json_schema` (backend auto: xgrammar → guidance → outlines)
 - Local SLM weights (GPU recommended)
 - Jinja2 (custom delimiters for LaTeX)
 - `tectonic` (PDF compilation, self-contained — no TeX Live)
@@ -93,7 +140,15 @@ Set `HF_MODEL_ID`, `HF_MODEL_LOCAL_DIR`, and `HF_TOKEN` (if needed) in `.env`.
 
 ```bash
    uv run vllm serve $HF_MODEL_LOCAL_DIR \
-     --guided-decoding-backend $GUIDED_DECODING_BACKEND \
+     --host $VLLM_HOST --port $VLLM_PORT
+```
+
+   Optional: pin the structured-outputs backend (default `auto`, which falls
+   back xgrammar → guidance → outlines per request with validation):
+
+```bash
+   uv run vllm serve $HF_MODEL_LOCAL_DIR \
+     --structured-outputs-config.backend outlines \
      --host $VLLM_HOST --port $VLLM_PORT
 ```
 

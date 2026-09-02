@@ -9,12 +9,12 @@
 
 ## Phase 2: LLM Matching
 
-- Host model via vLLM, use guided/structured decoding (outlines or vLLM's `guided_json`).
-- Prompt: job description + full CV JSON + per-section `max_entries` → strict JSON output `{section: [ids]}`.
+- Host model via vLLM, enforce output with structured outputs (`response_format` `json_schema`) — `guided_json` / `--guided-decoding-backend` were removed in vLLM v0.12.
+- Prompt: job description + full CV entries + per-section `max_entries` → strict JSON output `{section: [ids]}`.
 - Constraints:
-  - Output must only contain IDs that exist in `cv.json`.
-  - Enforce K ≤ max_entries per section at prompt level AND validate post-hoc.
-  - Reject/retry on malformed JSON (guided decoding should make this rare).
+  - Decoding schema hard-constrains output at decode time: per-section `enum` of valid CV ids, `maxItems` = cap, `uniqueItems`. Zero-entry sections are omitted from the schema and backfilled as `[]`.
+  - Call layer re-validates post-hoc (defense in depth): IDs exist, no duplicates, K ≤ max_entries, exact keys.
+  - Retry (3 attempts) on malformed/invalid output; connection/HTTP errors fail fast as `MatcherError`.
 
 ## Phase 3: Selection Validation (Python)
 
@@ -45,4 +45,4 @@
 
 - Unit tests: JSON validation, LaTeX escaping, entry-count enforcement.
 - Golden-file test: known job description → expected entry IDs (regression check on prompt changes).
-- Test malformed LLM output handling (guided decoding failure path).
+- Test malformed LLM output handling (structured-outputs failure path).
