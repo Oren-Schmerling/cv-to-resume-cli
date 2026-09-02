@@ -1,0 +1,92 @@
+[
+  {
+    "id": "exp-001",
+    "section": "experience",
+    "text": "Led a team of 5 engineers to deliver a payments platform migration, cutting transaction latency by 40 percent",
+    "tags": ["leadership", "payments", "performance"]
+  },
+  {
+    "id": "exp-002",
+    "section": "experience",
+    "text": "Designed and shipped a self-serve onboarding flow that raised weekly active signups by 28 percent",
+    "tags": ["product", "growth", "frontend"]
+  },
+  {
+    "id": "exp-003",
+    "section": "experience",
+    "text": "Built a distributed job queue on Kafka and Python Celery processing 2 million events per day",
+    "tags": ["backend", "kafka", "python"]
+  },
+  {
+    "id": "exp-004",
+    "section": "experience",
+    "text": "Cut cloud spend by 32 percent by right-sizing Kubernetes clusters and introducing spot instance pools",
+    "tags": ["infra", "kubernetes", "cost"]
+  },
+  {
+    "id": "exp-005",
+    "section": "experience",
+    "text": "Introduced contract testing across 20 microservices, reducing integration incidents by half",
+    "tags": ["testing", "microservices"]
+  },
+  {
+    "id": "exp-006",
+    "section": "experience",
+    "text": "Mentored 4 junior engineers through structured code review and pairing sessions",
+    "tags": null
+  },
+  {
+    "id": "edu-001",
+    "section": "education",
+    "text": "BSc in Computer Science, Tel Aviv University, graduated with honors",
+    "tags": ["cs", "university"]
+  },
+  {
+    "id": "edu-002",
+    "section": "education",
+    "text": "MSc in Machine Learning, Technion, thesis on efficient model distillation",
+    "tags": ["ml", "research"]
+  },
+  {
+    "id": "edu-003",
+    "section": "education",
+    "text": "Certified Kubernetes Administrator (CKA), Cloud Native Computing Foundation",
+    "tags": ["kubernetes", "certification"]
+  },
+  {
+    "id": "skill-001",
+    "section": "skills",
+    "text": "Python",
+    "tags": ["language"]
+  },
+  {
+    "id": "skill-002",
+    "section": "skills",
+    "text": "TypeScript and React",
+    "tags": ["language", "frontend"]
+  },
+  {
+    "id": "skill-003",
+    "section": "skills",
+    "text": "PostgreSQL query optimization",
+    "tags": ["database"]
+  },
+  {
+    "id": "skill-004",
+    "section": "skills",
+    "text": "Kubernetes and Terraform",
+    "tags": ["infra", "iac"]
+  },
+  {
+    "id": "skill-005",
+    "section": "skills",
+    "text": "PyTorch model training and evaluation",
+    "tags": ["ml", "pytorch"]
+  },
+  {
+    "id": "skill-006",
+    "section": "skills",
+    "text": "Technical writing and documentation",
+    "tags": null
+  }
+]
