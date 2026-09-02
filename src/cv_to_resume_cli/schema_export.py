@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from core.models import CVEntry, SectionConfig
+from .core.models import CVEntry, SectionConfig
 
 _SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
 

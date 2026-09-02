@@ -11,7 +11,7 @@ from pathlib import Path
 
 from pydantic import TypeAdapter, ValidationError
 
-from core.models import CVEntry, SectionConfig
+from .models import CVEntry, SectionConfig
 
 _cv_entry_list_adapter: TypeAdapter[list[CVEntry]] = TypeAdapter(list[CVEntry])
 _section_config_list_adapter: TypeAdapter[list[SectionConfig]] = TypeAdapter(
