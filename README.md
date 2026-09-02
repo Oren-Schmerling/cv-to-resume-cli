@@ -148,8 +148,10 @@ resume-cli/
 ├── uv.lock
 ├── README.md
 ├── resume_cli.py
-├── cv.json
-├── section_config.json
+├── data/
+│   ├── cv.json
+│   ├── cv.example.json
+│   └── section_config.json
 ├── schemas/
 │   ├── cv.schema.json
 │   └── section_config.schema.json
