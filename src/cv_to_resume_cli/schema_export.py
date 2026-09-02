@@ -3,7 +3,7 @@
 The pydantic models in core/models.py are the source of truth. Run this
 module directly whenever a model changes:
 
-    uv run python -m core.schema_export
+    uv run python -m cv_to_resume_cli.schema_export
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ from pathlib import Path
 
 from .core.models import CVEntry, SectionConfig
 
-_SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
+_SCHEMAS_DIR = Path(__file__).resolve().parent.parent.parent / "schemas"
 
 
 def export_schemas() -> None:

@@ -39,7 +39,11 @@
         "title": "Tags"
       }
     },
-    "required": ["id", "section", "text"],
+    "required": [
+      "id",
+      "section",
+      "text"
+    ],
     "title": "CVEntry",
     "type": "object"
   }

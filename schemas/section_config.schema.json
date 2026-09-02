@@ -1,5 +1,29 @@
-[
-  { "name": "experience", "max_entries": 5 },
-  { "name": "education", "max_entries": 2 },
-  { "name": "skills", "max_entries": 8 }
-]
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "section_config.json",
+  "type": "array",
+  "items": {
+    "additionalProperties": false,
+    "description": "Config for a single resume section: name + entry cap.\n\nList order in section_config.json is the section rendering order.",
+    "properties": {
+      "name": {
+        "description": "Section name; matches CVEntry.section.",
+        "minLength": 1,
+        "title": "Name",
+        "type": "string"
+      },
+      "max_entries": {
+        "description": "Hard cap on selected/rendered entries for this section.",
+        "exclusiveMinimum": 0,
+        "title": "Max Entries",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "name",
+      "max_entries"
+    ],
+    "title": "SectionConfig",
+    "type": "object"
+  }
+}
